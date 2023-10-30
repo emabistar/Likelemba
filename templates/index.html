@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Loan Calculator</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <script>
+        // Function to toggle the visibility of the "Print Table" button
+        function togglePrintButtonVisibility() {
+            const printTableButton = document.getElementById("printTableButton");
+            const result = document.querySelector(".table-auto"); // Assuming this is the class applied to your result table
+
+            if (result && result.textContent.trim() !== "") {
+                printTableButton.classList.remove("hidden");
+            } else {
+                printTableButton.classList.add("hidden");
+            }
+        }
+
+        // Call the function when the page loads and after form submission
+        document.addEventListener("DOMContentLoaded", togglePrintButtonVisibility);
+    </script>
+
+</head>
+<body class="bg-gray-200 p-4">
+    <nav class="bg-blue-500 text-white py-4">
+        <ul class="flex space-x-4 justify-center">
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About Us</a></li>
+            <li><a href="/service">Service</a></li>
+
+            <li><a href="/contact">Contact</a></li>
+           <div>
+
+            <li><a href="/generate_pdf" class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded">Print PDF</a></li>
+           </div>
+        </ul>
+    </nav>
+    <div class="max-w-md mx-auto bg-white rounded p-4 shadow-md">
+        <h1 class="text-2xl font-bold mb-4">Tontine Loan Calculator</h1>
+        <form method="POST">
+            <div class="mb-4">
+                <label for="people" class="block text-sm font-medium text-gray-700">Enter the number of people:</label>
+                <input type="text" name="people" id="people" class="border rounded w-full py-2 px-3" required>
+            </div>
+            <div class="mb-4">
+                <label for="amount" class="block text-sm font-medium text-gray-700">How much investment you want to make?</label>
+                <input type="text" name="amount" id="amount" class="border rounded w-full py-2 px-3" required>
+            </div>
+            <div class="mb-4">
+                <label for="position" class="block text-sm font-medium text-gray-700">Enter your position:</label>
+                <input type="text" name="position" id="position" class="border rounded w-full py-2 px-3" required>
+            </div>
+            <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">Calculate</button>
+        </form>
+        <br>
+        {% if message %}
+            <table class="table-auto">
+                <tr>
+                    <th class="px-4 py-2">Result</th>
+                </tr>
+                <tr>
+                    <td class="px-4 py-2">{{ message }}</td>
+                </tr>
+            </table>
+        {% endif %}
+        <br>
+        <!-- Add the "Print Table" button -->
+        <form method="POST" action="/generate_table_pdf">
+            <input type="hidden" name="message" value="{{ message }}">
+            <button type="submit" class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded hidden" id="printTableButton">Print doc</button>
+        </form>
+        </form>
+    </div>
+</body>
+</html>
